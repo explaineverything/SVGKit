@@ -10,10 +10,10 @@
 
 #import "CSSStyleDeclaration.h"
 
-@class Element;
+@class SVGBaseElement;
 
 @protocol DocumentCSS <DocumentStyle>
 
--(CSSStyleDeclaration *)getOverrideStyle:(Element *)element pseudoElt:(NSString *)pseudoElt;
+-(CSSStyleDeclaration *)getOverrideStyle:(SVGBaseElement *)element pseudoElt:(NSString *)pseudoElt;
 
 @end

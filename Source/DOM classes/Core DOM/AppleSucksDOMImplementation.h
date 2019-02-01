@@ -27,16 +27,16 @@
 
 #import <Foundation/Foundation.h>
 
-#import "DocumentType.h"
+#import "SVGDocumentType.h"
 
 @interface AppleSucksDOMImplementation : NSObject
 
 -(BOOL) hasFeature:(NSString*) feature version:(NSString*) version;
 
 // Introduced in DOM Level 2:
--(DocumentType*) createDocumentType:(NSString*) qualifiedName publicId:(NSString*) publicId systemId:(NSString*) systemId;
+-(SVGDocumentType*) createDocumentType:(NSString*) qualifiedName publicId:(NSString*) publicId systemId:(NSString*) systemId;
 
 // Introduced in DOM Level 2:
--(Document*) createDocument:(NSString*) namespaceURI qualifiedName:(NSString*) qualifiedName doctype:(DocumentType*) doctype;
+-(Document*) createDocument:(NSString*) namespaceURI qualifiedName:(NSString*) qualifiedName doctype:(SVGDocumentType*) doctype;
 
 @end

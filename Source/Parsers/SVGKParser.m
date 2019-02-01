@@ -23,7 +23,7 @@
 
 #import "SVGDocument_Mutable.h" // so we can modify the SVGDocuments we're parsing
 
-#import "Node.h"
+#import "SVGNode.h"
 
 #import "SVGKSourceString.h"
 #import "SVGKSourceURL.h"
@@ -426,7 +426,7 @@ static void processingInstructionSAX (void * ctx,
 		/** Send any partially-parsed text data into the old node that is now the parent node,
 		 then change the "storing chars" flag to fit the new node */
 		
-		Text *tNode = [[Text alloc] initWithValue:_storedChars];
+		SVGText *tNode = [[SVGText alloc] initWithValue:_storedChars];
 		
 		[_parentOfCurrentNode appendChild:tNode];
 		
@@ -475,10 +475,10 @@ static void processingInstructionSAX (void * ctx,
 			[_stackOfParserExtensions addObject:subParser];
 			
 			/** Parser Extenstion creates a node for us */
-			Node* subParserResult = [subParser handleStartElement:name document:source namePrefix:prefix namespaceURI:XMLNSURI attributes:attributeObjects parseResult:self.currentParseRun parentNode:_parentOfCurrentNode];
+			SVGNode* subParserResult = [subParser handleStartElement:name document:source namePrefix:prefix namespaceURI:XMLNSURI attributes:attributeObjects parseResult:self.currentParseRun parentNode:_parentOfCurrentNode];
 			
 #if DEBUG_XML_PARSER
-			SVGKitLogVerbose(@"[%@] tag: <%@:%@> id=%@ -- handled by subParser: %@", [self class], prefix, name, ([((Attr*)[attributeObjects objectForKey:@"id"]) value] != nil?[((Attr*)[attributeObjects objectForKey:@"id"]) value]:@"(none)"), subParser );
+			SVGKitLogVerbose(@"[%@] tag: <%@:%@> id=%@ -- handled by subParser: %@", [self class], prefix, name, ([((SVGAttr*)[attributeObjects objectForKey:@"id"]) value] != nil?[((SVGAttr*)[attributeObjects objectForKey:@"id"]) value]:@"(none)"), subParser );
 #endif
 			
 			/** Add the new (partially parsed) node to the parent node in tree
@@ -513,7 +513,7 @@ static void processingInstructionSAX (void * ctx,
 	[_stackOfParserExtensions addObject:eventualParser];
 	
 	/** Parser Extenstion creates a node for us */
-	Node* subParserResult = [eventualParser handleStartElement:name document:source namePrefix:prefix namespaceURI:XMLNSURI attributes:attributeObjects parseResult:self.currentParseRun parentNode:_parentOfCurrentNode];
+	SVGNode* subParserResult = [eventualParser handleStartElement:name document:source namePrefix:prefix namespaceURI:XMLNSURI attributes:attributeObjects parseResult:self.currentParseRun parentNode:_parentOfCurrentNode];
 	
 #if DEBUG_XML_PARSER
 	SVGKitLogVerbose(@"[%@] tag: <%@:%@> id=%@ -- handled by subParser: %@", [self class], prefix, name, ([((Attr*)[attributeObjects objectForKey:@"id"]) value] != nil?[((Attr*)[attributeObjects objectForKey:@"id"]) value]:@"(none)"), eventualParser );
@@ -575,7 +575,7 @@ static void startElementSAX (void *ctx, const xmlChar *localname, const xmlChar 
 		stringURI = self.defaultXMLNamespaceForThisParseRun;
 	}
 	
-	for( Attr* newAttribute in attributeObjects.allValues )
+	for( SVGAttr* newAttribute in attributeObjects.allValues )
 	{
 		if( newAttribute.namespaceURI == nil )
 			newAttribute.namespaceURI = self.defaultXMLNamespaceForThisParseRun;
@@ -607,7 +607,7 @@ static void startElementSAX (void *ctx, const xmlChar *localname, const xmlChar 
 		/** NB this happens *AFTER* setting default namespaces for all attributes - the xmlns: attributes are required by the XML
 		 spec to all live in a special magical namespace AND to all use the same prefix of "xmlns" - no other is allowed!
 		 */
-		Attr* newAttributeFromNamespaceDeclaration = [[Attr alloc] initWithNamespace:@"http://www.w3.org/2000/xmlns/" qualifiedName:[NSString stringWithFormat:@"xmlns:%@", prefix] value:namespace];
+		SVGAttr* newAttributeFromNamespaceDeclaration = [[SVGAttr alloc] initWithNamespace:@"http://www.w3.org/2000/xmlns/" qualifiedName:[NSString stringWithFormat:@"xmlns:%@", prefix] value:namespace];
 		
 		[attributeObjects setObject:newAttributeFromNamespaceDeclaration forKey:newAttributeFromNamespaceDeclaration.nodeName];
 	}
@@ -691,7 +691,7 @@ static void startElementSAX (void *ctx, const xmlChar *localname, const xmlChar 
 	{
 		/** Send any parsed text data into the node-we're-closing */
 		
-		Text *tNode = [[Text alloc] initWithValue:_storedChars];
+		SVGText *tNode = [[SVGText alloc] initWithValue:_storedChars];
 		
 		[_parentOfCurrentNode appendChild:tNode];
 		
@@ -876,7 +876,7 @@ static NSMutableDictionary *NSDictionaryFromLibxmlAttributes (const xmlChar **at
 		
 		NSString* qname = (prefix == nil) ? localName : [NSString stringWithFormat:@"%@:%@", prefix, localName];
 		
-		Attr* newAttribute = [[Attr alloc] initWithNamespace:uri qualifiedName:qname value:value];
+		SVGAttr* newAttribute = [[SVGAttr alloc] initWithNamespace:uri qualifiedName:qname value:value];
 		
 		[dict setObject:newAttribute
 				 forKey:qname];
@@ -888,7 +888,7 @@ static NSMutableDictionary *NSDictionaryFromLibxmlAttributes (const xmlChar **at
 #define MAX_ACCUM 256
 #define MAX_NAME 256
 
-+(NSDictionary *) NSDictionaryFromCSSAttributes: (Attr*) styleAttribute {
++(NSDictionary *) NSDictionaryFromCSSAttributes: (SVGAttr*) styleAttribute {
 	
 	if( styleAttribute == nil )
 	{
@@ -928,7 +928,7 @@ static NSMutableDictionary *NSDictionaryFromLibxmlAttributes (const xmlChar **at
 		else if (c == ';' || c == '\0') {
 			accum[accumIdx] = '\0';
 			
-			Attr* newAttribute = [[Attr alloc] initWithNamespace:styleAttribute.namespaceURI qualifiedName:[NSString stringWithUTF8String:name] value:[NSString stringWithUTF8String:accum]];
+			SVGAttr* newAttribute = [[SVGAttr alloc] initWithNamespace:styleAttribute.namespaceURI qualifiedName:[NSString stringWithUTF8String:name] value:[NSString stringWithUTF8String:accum]];
 			
 			[dict setObject:newAttribute
 					 forKey:newAttribute.localName];

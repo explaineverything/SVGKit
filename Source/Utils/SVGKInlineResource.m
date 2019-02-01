@@ -18,11 +18,11 @@ static NSString * const kSVGDefaultContentString = @"\
 </svg>";
 
 
-NSString * const SVGKGetBrokenImageString(void) {
+NSString * SVGKGetBrokenImageString(void) {
     return kSVGBrokenImageString;
 }
 
-UIImage * const SVGKGetBrokenImageRepresentation(void) {
+UIImage * SVGKGetBrokenImageRepresentation(void) {
     static dispatch_once_t onceToken;
     static UIImage *image;
     dispatch_once(&onceToken, ^{
@@ -32,6 +32,6 @@ UIImage * const SVGKGetBrokenImageRepresentation(void) {
     return image;
 }
 
-NSString * const SVGKGetDefaultContentString(void) {
+NSString * SVGKGetDefaultContentString(void) {
     return kSVGDefaultContentString;
 }

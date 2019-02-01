@@ -1,7 +1,7 @@
-#import "Document.h"
+#import "SVGBaseDocument.h"
 
-@interface Document ()
+@interface SVGBaseDocument ()
 
-@property(nonatomic,strong,readwrite) Element*          documentElement;
+@property(nonatomic,strong,readwrite) SVGBaseElement*          documentElement;
 
 @end

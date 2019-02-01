@@ -2,7 +2,7 @@
 #import "SVGSwitchElement.h"
 #import "CALayerWithChildHitTest.h"
 #import "SVGHelperUtilities.h"
-#import "NodeList+Mutable.h"
+#import "SVGNodeList+Mutable.h"
 
 @implementation SVGSwitchElement
 
@@ -18,12 +18,12 @@
     return _layer;
 }
 
-- (NodeList *)visibleChildNodes
+- (SVGNodeList *)visibleChildNodes
 {
     if (_visibleChildNodes)
         return _visibleChildNodes;
     
-    _visibleChildNodes = [[NodeList alloc] init];
+    _visibleChildNodes = [[SVGNodeList alloc] init];
     
     NSString* localLanguage = [[NSLocale preferredLanguages] firstObject];
     

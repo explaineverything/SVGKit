@@ -13,10 +13,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /** Return the brkoken image base64 string */
-FOUNDATION_EXPORT NSString * const SVGKGetBrokenImageString(void);
+FOUNDATION_EXPORT NSString * SVGKGetBrokenImageString(void);
 /** Return the shared broken image representation */
-FOUNDATION_EXPORT UIImage * const SVGKGetBrokenImageRepresentation(void);
+FOUNDATION_EXPORT UIImage * SVGKGetBrokenImageRepresentation(void);
 /** Return the default empty SVG content string */
-FOUNDATION_EXPORT NSString * const SVGKGetDefaultContentString(void);
+FOUNDATION_EXPORT NSString * SVGKGetDefaultContentString(void);
 
 NS_ASSUME_NONNULL_END

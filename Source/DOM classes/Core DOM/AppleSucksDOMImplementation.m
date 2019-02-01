@@ -12,7 +12,7 @@
 }
 
 // Introduced in DOM Level 2:
--(DocumentType*) createDocumentType:(NSString*) qualifiedName publicId:(NSString*) publicId systemId:(NSString*) systemId
+-(SVGDocumentType*) createDocumentType:(NSString*) qualifiedName publicId:(NSString*) publicId systemId:(NSString*) systemId
 {
 	NSAssert( FALSE, @"Apple has made a private class with the same name as this class - we have to rename it because ObjectiveC sucks, and Apple used a foolish name, so we CANNOT adhere to the spec now" );
 	
@@ -22,7 +22,7 @@
 
 
 // Introduced in DOM Level 2:
--(Document*) createDocument:(NSString*) namespaceURI qualifiedName:(NSString*) qualifiedName doctype:(DocumentType*) doctype
+-(Document*) createDocument:(NSString*) namespaceURI qualifiedName:(NSString*) qualifiedName doctype:(SVGDocumentType*) doctype
 {
 	NSAssert( FALSE, @"Apple has made a private class with the same name as this class - we have to rename it because ObjectiveC sucks, and Apple used a foolish name, so we CANNOT adhere to the spec now" );
 	

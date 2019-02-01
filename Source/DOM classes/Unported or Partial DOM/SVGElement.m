@@ -96,7 +96,7 @@
 
 /*! Override so that we can automatically set / unset the ownerSVGElement and viewportElement properties,
  as required by SVG Spec */
--(void)setParentNode:(Node *)newParent
+-(void)setParentNode:(SVGNode *)newParent
 {
 	[super setParentNode:newParent];
 	
@@ -126,7 +126,7 @@
 		}
 		else
 		{
-			Node* currentAncestor = newParent;
+			SVGNode* currentAncestor = newParent;
 			SVGElement*	firstAncestorThatIsAnyKindOfSVGElement = nil;
 			while( firstAncestorThatIsAnyKindOfSVGElement == nil
 				  && currentAncestor != nil ) // if we run out of tree! This would be an error (see below)
@@ -175,14 +175,14 @@
 
 - (void)setRootOfCurrentDocumentFragment:(SVGSVGElement *)root {
     _rootOfCurrentDocumentFragment = root;
-    for (Node *child in self.childNodes)
+    for (SVGNode *child in self.childNodes)
         if ([child isKindOfClass:SVGElement.class])
             ((SVGElement *) child).rootOfCurrentDocumentFragment = root;
 }
 
 - (void)setViewportElement:(SVGElement *)viewport {
     _viewportElement = viewport;
-    for (Node *child in self.childNodes)
+    for (SVGNode *child in self.childNodes)
         if ([child isKindOfClass:SVGElement.class])
             ((SVGElement *) child).viewportElement = viewport;
 }
@@ -629,7 +629,7 @@
         /** Finally: move up the tree until you find a <G> or <SVG> node, and ask it to provide the value
          */
         
-        Node* parentElement = self.parentNode;
+        SVGNode* parentElement = self.parentNode;
         while( parentElement != nil
               && ! [parentElement isKindOfClass:[SVGGElement class]]
               && ! [parentElement isKindOfClass:[SVGSVGElement class]])

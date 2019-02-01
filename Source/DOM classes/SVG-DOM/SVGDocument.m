@@ -11,7 +11,7 @@
 #import "SVGDocument.h"
 #import "SVGDocument_Mutable.h"
 
-#import "NamedNodeMap_Iterable.h" // needed for the allPrefixesByNamespace implementation
+#import "SVGNamedNodeMap_Iterable.h" // needed for the allPrefixesByNamespace implementation
 
 @implementation SVGDocument
 
@@ -45,7 +45,7 @@
 	super.documentElement = rootElement;
 }
 
--(void)setDocumentElement:(Element *)newDocumentElement
+-(void)setDocumentElement:(SVGBaseElement *)newDocumentElement
 {
 	NSAssert( [newDocumentElement isKindOfClass:[SVGSVGElement class]], @"Cannot set the documentElement property on an SVG doc unless it's of type SVGSVGDocument" );
 	
@@ -77,7 +77,7 @@
 
 /** implementation of allPrefixesByNamespace - stores "namespace string" : "ARRAY of prefix strings"
  */
-+(void) accumulateNamespacesForNode:(Node*) node intoDictionary:(NSMutableDictionary*) output
++(void) accumulateNamespacesForNode:(SVGNode*) node intoDictionary:(NSMutableDictionary*) output
 {
 	/**
 	 First, find all the attributes that declare a new Namespace at this point */
@@ -88,7 +88,7 @@
 	
 	for( NSString* xmlnsNodeName in xmlnsNodemap )
 	{
-		Node* namespaceDeclaration = [xmlnsNodemap objectForKey:xmlnsNodeName];
+		SVGNode* namespaceDeclaration = [xmlnsNodemap objectForKey:xmlnsNodeName];
 		
 		NSMutableArray* prefixesForNamespace = [output objectForKey:namespaceDeclaration.nodeValue];
 		if( prefixesForNamespace == nil )
@@ -101,7 +101,7 @@
 			[prefixesForNamespace addObject:namespaceDeclaration.localName];
 	}
 	
-	for( Node* childNode in node.childNodes )
+	for( SVGNode* childNode in node.childNodes )
 	{
 		[self accumulateNamespacesForNode:childNode intoDictionary:output];
 	}

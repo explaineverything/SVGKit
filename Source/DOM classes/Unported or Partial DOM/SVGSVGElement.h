@@ -30,8 +30,8 @@
  boolean animationsPaused();
  float getCurrentTime();
  void setCurrentTime(in float seconds);
- NodeList getIntersectionList(in SVGRect rect, in SVGElement referenceElement);
- NodeList getEnclosureList(in SVGRect rect, in SVGElement referenceElement);
+ SVGNodeList getIntersectionList(in SVGRect rect, in SVGElement referenceElement);
+ SVGNodeList getEnclosureList(in SVGRect rect, in SVGElement referenceElement);
  boolean checkIntersection(in SVGElement element, in SVGRect rect);
  boolean checkEnclosure(in SVGElement element, in SVGRect rect);
  void deselectAll();
@@ -61,8 +61,8 @@
 #import "SVGTransform.h"
 
 #pragma mark - a few raw DOM imports are required for SVG DOM, but not many
-#import "Element.h"
-#import "NodeList.h"
+#import "SVGBaseElement.h"
+#import "SVGNodeList.h"
 
 #import "ConverterSVGToCALayer.h"
 #import "SVGKSource.h"
@@ -101,8 +101,8 @@
 -(BOOL) animationsPaused;
 -(float) getCurrentTime;
 -(void) setCurrentTime:(float) seconds;
--(NodeList*) getIntersectionList:(SVGRect) rect referenceElement:(SVGElement*) referenceElement;
--(NodeList*) getEnclosureList:(SVGRect) rect referenceElement:(SVGElement*) referenceElement;
+-(SVGNodeList*) getIntersectionList:(SVGRect) rect referenceElement:(SVGElement*) referenceElement;
+-(SVGNodeList*) getEnclosureList:(SVGRect) rect referenceElement:(SVGElement*) referenceElement;
 -(BOOL) checkIntersection:(SVGElement*) element rect:(SVGRect) rect;
 -(BOOL) checkEnclosure:(SVGElement*) element rect:(SVGRect) rect;
 -(void) deselectAll;
@@ -114,7 +114,7 @@
 -(SVGRect) createSVGRect;
 -(SVGTransform*) createSVGTransform;
 -(SVGTransform*) createSVGTransformFromMatrix:(SVGMatrix*) matrix;
--(Element*) getElementById:(NSString*) elementId;
+-(SVGBaseElement*) getElementById:(NSString*) elementId;
 
 #pragma mark - below here VIOLATES THE STANDARD, but needs to be CAREFULLY merged with spec
 
